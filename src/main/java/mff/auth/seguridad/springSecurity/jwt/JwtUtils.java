@@ -21,10 +21,10 @@ public class JwtUtils {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-	@Value("${registro.propiedad.web.app.jwtSecret}")
+	@Value("${fast.food.web.app.jwtSecret}")
 	private String jwtSecret;
 
-	@Value("${registro.propiedad.web.app.jwtExpirationMs}")
+	@Value("${fast.food.web.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 	
 	public String generateJwtToken(Authentication authentication) {
