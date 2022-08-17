@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import mff.auth.seguridad.entity.Cliente;
 import mff.auth.seguridad.entity.Usuario;
 
 public class UserDetailsImpl implements UserDetails {
@@ -41,6 +42,17 @@ public class UserDetailsImpl implements UserDetails {
 									user.getClave(),
 									user.getNombre(),
 									user.getApellido(),
+									authorities);
+	}
+	
+	public static UserDetailsImpl buildCliente(Cliente user) {
+		List<GrantedAuthority> authorities = null;
+		return new UserDetailsImpl(
+									user.getIdCliente(), 
+									user.getCorreo(), 
+									user.getClave(),
+									user.getNombres(),
+									user.getApellidos(),
 									authorities);
 	}
 

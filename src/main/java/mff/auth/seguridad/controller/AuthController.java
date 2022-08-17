@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mff.auth.seguridad.entity.Cliente;
 import mff.auth.seguridad.entity.Permiso;
 import mff.auth.seguridad.entity.Usuario;
+import mff.auth.seguridad.service.IClienteService;
 import mff.auth.seguridad.service.IPermisoService;
 import mff.auth.seguridad.service.IUsuarioService;
 import mff.auth.seguridad.springSecurity.entity.JwtRespuesta;
@@ -44,6 +46,9 @@ public class AuthController {
 	
 	@Autowired
 	private IUsuarioService usuarioService;
+	
+	@Autowired
+	private IClienteService clienteService;
 	
 	@Autowired
 	private IPermisoService permisoService;
@@ -70,6 +75,29 @@ public class AuthController {
 													usu.getApellido(),
 													usu.getPerfil(),
 													listaPermiso
+													));
+	}
+	
+	@PostMapping("/logincliente")
+	public ResponseEntity<?> authenticateUserCliente(@Valid LoginSolicitud LoginSolicitud)  {
+		String clave_final = LoginSolicitud.getPassword();
+		encoder.encode(clave_final);
+		
+		Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(LoginSolicitud.getUsuario(), clave_final));
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		String jwt = jwtUtils.generateJwtToken(authentication);
+		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+		
+		Cliente usu = this.clienteService.buscarPorId(userDetails.getCodUsuario());
+		
+		return ResponseEntity.ok(new JwtRespuesta( 	jwt, 
+													usu.getIdCliente(), 
+													usu.getCedula(),
+													usu.getNombres(), 
+													usu.getApellidos(),
+													null,
+													null
 													));
 	}
 
