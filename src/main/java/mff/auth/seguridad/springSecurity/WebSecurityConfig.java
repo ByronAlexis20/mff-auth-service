@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/auth/login").permitAll()
-			.antMatchers("/api/auth/logincliente").permitAll()
+			.antMatchers("/api/authcliente/login").permitAll()
 			.antMatchers("/algen/marcaCliente/**").permitAll()
 			.antMatchers("/algen/equipoCliente/**").permitAll()
 			.antMatchers("/algen/**").authenticated()
